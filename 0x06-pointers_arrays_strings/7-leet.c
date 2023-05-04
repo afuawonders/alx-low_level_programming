@@ -6,18 +6,19 @@
 */
 char *leet(char *n)
 {
-int k, m;
+int i, j;
 char s1[] = "aAeEoOtTlL";
 char s2[] = "4433007711";
-for (k = 0; n[k] != '\0'; k++)
+for (i = 0; n[i] != '\0'; i++)
 {
-for (m = 0; m < 10; m++)
+for (j = 0; j < 10; j++)
 {
-if (n[k] == s1[]m)
+if (n[i] == s1[j])
 {
-n[k] = s2[m];
+n[i] = s2[j];
 }
 }
 }
 return (n);
 }
+
