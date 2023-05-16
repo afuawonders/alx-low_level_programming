@@ -33,6 +33,6 @@ while (s2[ci] != '\0')
 concat[i] = s2[ci];
 i++, ci++;
 }
-conct[i] = '\0';
+concat[i] = '\0';
 return (concat);
 }
