@@ -5,6 +5,6 @@
 */
 int main(void)
 {
-printf("File compiled from: %s\n", __FILE__);
+printf("%s\n", __FILE__);
 return (0);
 }
