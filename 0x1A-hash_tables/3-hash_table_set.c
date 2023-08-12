@@ -5,90 +5,48 @@
  * hash_table_set - Add an item to Hash table.
  * @ht: hash table to be added
  * @key: The key of the added item to the hash table.
- * @value: VAlue associated with the key
- * Returns: 1 if it succeeded or 0 otherwise
+ * @value: Value associated with the key
+ * Return: 1 if it succeeded or 0 otherwise
  */
 
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
-
 {
+	unsigned long int index = 0;
+	char *valuecopy, *keycopy;
+	hash_node_t  *bucket, *new_node;
 
-	hash_node_t *new;
-
-	char *value_copy;
-
-	unsigned long int index, i;
-
-
-
-	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
-
+	if (!ht || !key || !*key || !value)
 		return (0);
 
-
-
-	value_copy = strdup(value);
-
-	if (value_copy == NULL)
-
+	valuecopy = strdup(value);
+	if (!valuecopy)
 		return (0);
-
-
 
 	index = key_index((const unsigned char *)key, ht->size);
+	bucket = ht->array[index];
 
-	for (i = index; ht->array[i]; i++)
-
+	while (bucket)
 	{
-
-		if (strcmp(ht->array[i]->key, key) == 0)
-
+		if (!strcmp(key, bucket->key))
 		{
-
-			free(ht->array[i]->value);
-
-			ht->array[i]->value = value_copy;
-
+			free(bucket->value);
+			bucket->value = valuecopy;
 			return (1);
-
 		}
-
+		bucket = bucket->next;
 	}
-
-
-
-	new = malloc(sizeof(hash_node_t));
-
-	if (new == NULL)
-
+	new_node = calloc(1, sizeof(hash_node_t));
+	if (new_node == NULL)
 	{
-
-		free(value_copy);
-
+		free(valuecopy);
 		return (0);
-
 	}
-
-	new->key = strdup(key);
-
-	if (new->key == NULL)
-
-	{
-
-		free(new);
-
+	keycopy = strdup(key);
+	if (!keycopy)
 		return (0);
-
-	}
-
-	new->value = value_copy;
-
-	new->next = ht->array[index];
-
-	ht->array[index] = new;
-
-
-
+	new_node->key = keycopy;
+	new_node->value = valuecopy;
+	new_node->next = ht->array[index];
+	ht->array[index] = new_node;
 	return (1);
-
 }
